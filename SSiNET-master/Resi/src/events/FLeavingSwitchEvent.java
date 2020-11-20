@@ -26,7 +26,7 @@ public class FLeavingSwitchEvent extends Event {
     		long startTime, long endTime, Element elem, Packet p)
     {
     	super(sim, endTime);
-    	//countSubEvent++;
+    	
         this.startTime = startTime;
         this.endTime = endTime;
         this.element = elem;
@@ -53,7 +53,7 @@ public class FLeavingSwitchEvent extends Event {
             	//packet.getState().act();
             }
             //change EXB state
-            //exitBuffer.setState(new X00(exitBuffer));
+            
             exitBuffer.setType(Type.X00);
             exitBuffer.getState().act();
 
@@ -75,7 +75,7 @@ public class FLeavingSwitchEvent extends Event {
                     		, time
                             , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
                             , unidirectionalWay, packet);
-                    event.register(); //chen them su kien moi vao
+                    event.register(); //insert new event
             	}
             }
             else if(nextNode instanceof Switch) {
@@ -87,7 +87,7 @@ public class FLeavingSwitchEvent extends Event {
                 		time
                         , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
                         , unidirectionalWay, packet);
-                event.register(); //chen them su kien moi vao
+                event.register(); //insert new event
             }
         }
         

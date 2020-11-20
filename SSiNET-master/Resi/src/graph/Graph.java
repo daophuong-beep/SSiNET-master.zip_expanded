@@ -102,7 +102,7 @@ public abstract class Graph {
                 }
             }
         }
-
+        
         Map<Integer, List<Integer>> paths = new HashMap<>();
         for (int node : this.switches()) {
             List<Integer> path = new ArrayList<>();
@@ -118,13 +118,7 @@ public abstract class Graph {
 
         return paths;
     }
-
-    public Map<Integer, Map<Integer, List<Integer>>> allShortestPaths() {
-        Map<Integer, Map<Integer, List<Integer>>> paths = new HashMap<>();
-
-        Queue<Integer> queue = new LinkedList<Integer>();
-        boolean[] visited = new boolean[this.V];
-        int[] trace = new int[this.V];
+    private void noname1(  Map<Integer, Map<Integer, List<Integer>>> paths,Queue<Integer> queue,boolean[] visited,int[] trace) {
 
         for (int u : switches()) {
             queue.clear();
@@ -159,6 +153,14 @@ public abstract class Graph {
             }
             StdOut.printf("Done for %d\n", u);
         }
+    }
+    public Map<Integer, Map<Integer, List<Integer>>> allShortestPaths() {
+        Map<Integer, Map<Integer, List<Integer>>> paths = new HashMap<>();
+
+        Queue<Integer> queue = new LinkedList<Integer>();
+        boolean[] visited = new boolean[this.V];
+        int[] trace = new int[this.V];
+        this.noname1(paths, queue, visited, trace);
         return paths;
     }
 

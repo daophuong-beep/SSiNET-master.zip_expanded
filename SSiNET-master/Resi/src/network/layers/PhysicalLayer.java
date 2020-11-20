@@ -45,10 +45,4 @@ public class PhysicalLayer extends Layer { //only transfers packets from a node 
 		this.node = sw;
 		this.links = new HashMap<>();
 	}
-
-	
-	/*public void addLocationOfEvents()
-	{
-		sim.addLocationOfEvents(node);
-	}*/
 }

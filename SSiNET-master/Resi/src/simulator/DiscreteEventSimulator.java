@@ -74,7 +74,8 @@ public class DiscreteEventSimulator extends Simulator {
     public double getTimeLimit() {
         return timeLimit;
     }
-    
+  
+	
     
     @Override
     public void start () {
@@ -99,13 +100,7 @@ public class DiscreteEventSimulator extends Simulator {
 	
 				
 				int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
-				if (percentage > lastPercentage) 
-				{ 
-					lastPercentage = percentage;
-					StdOut.printProgress("Progress", startTime, (long) timeLimit, currentTime); 
-				}
-				
-				 
+				this.noname1(lastPercentage, startTime);
 			}
 			StdOut.print("\r");
 		} catch (Exception ex) {
@@ -117,7 +112,16 @@ public class DiscreteEventSimulator extends Simulator {
 		
 		System.out.println("# of Events: " + countEvent);
 	}
-    
+    public void noname1(int lastPercentage,long startTime) {
+    	int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
+		if (percentage > lastPercentage) 
+		{ 
+			lastPercentage = percentage;
+			StdOut.printProgress("Progress", startTime, (long) timeLimit, currentTime); 
+		}
+		
+		 
+	}
     
     @Override
     protected Event removeFirstEvent() {

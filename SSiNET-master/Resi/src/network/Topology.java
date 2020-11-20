@@ -129,8 +129,7 @@ public class Topology {
         		hosts.add(destinationNode);
         		hostById.put(destinationNodeID, destinationNode);
         		destinationNode.physicalLayer = new PhysicalLayer(destinationNode);
-                //destinationNode.networkLayer = //networkLayer;
-                //		new NetworkLayer(routingAlgorithm);
+               
         		destinationNode.setNetworkLayer(routingAlgorithm, destinationNode);
         	}
         	
@@ -154,7 +153,7 @@ public class Topology {
 
         cordOfNodes = new HashMap<>();
         
-        //NetworkLayer networkLayer = new NetworkLayer(routingAlgorithm);
+       
      // initialize switch and add to the list
        this.Initializeswitch(graph, routingAlgorithm);
         
@@ -182,21 +181,18 @@ public class Topology {
 
         sourceNodeIDs = pairGenerator.getSources();
         destinationNodeIDs = pairGenerator.getDestinations();
-        //Knuth.shuffle(hostIDList);
-
-//        hostIDList = new Integer[]{ 17,24,18,11,2,3,19,8,26,0,27,1,10,16,9,25 };
+        
 
         sourceNodes.addAll(sourceNodeIDs//.subList(0, hostIDList.length / 2)
         											);
-        //sourceNodes.add(0);
+        
         
        this.AddSourcenode(routingAlgorithm);
 
-        destinationNodes.addAll(//Arrays.asList(hostIDList)//.subList(hostIDList.length / 2, hostIDList.length)
+        destinationNodes.addAll(
         		destinationNodeIDs
         						);
-        //destinationNodes.add(1);
-        
+       
         this.AddDestinationnode(routingAlgorithm);
         
         // link from switch to host
@@ -224,7 +220,7 @@ public class Topology {
                 sw.physicalLayer.entranceBuffers.put(host.getId(), entranceBuffer);
             }
 
-            // tao exitBuffer cho switch noi toi desNode
+            // create exitBuffer for switch to connect to desNode
             //exb of switch to desNode
             if(host.isDestinationNode()){
                 ExitBuffer exitBuffer = new ExitBuffer(sw, host, Constant.QUEUE_SIZE);

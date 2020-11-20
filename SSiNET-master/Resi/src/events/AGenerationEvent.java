@@ -15,7 +15,7 @@ public class AGenerationEvent extends Event {
 	public AGenerationEvent(DiscreteEventSimulator sim, long startTime, long endTime, IEventGenerator elem)
 	{
 		super(sim, endTime);
-		//countSubEvent++;
+		
 		this.element = elem;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -35,7 +35,7 @@ public class AGenerationEvent extends Event {
 			if(newPacket == null) { return; }
 			newPacket.setId(sim.numSent++);
 			this.setPacket(newPacket);
-			//newPacket.setState(new StateP1(sourceQueue, newPacket, this));
+			
 			newPacket.setType(Type.P1);
 			
 			// update source queue state

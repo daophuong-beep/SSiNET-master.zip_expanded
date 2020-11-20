@@ -16,7 +16,7 @@ public class ReuseRoutingState extends State{
 	{
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
 		NetworkLayer networkLayer = (NetworkLayer) element;
-		//if(notYetAddGenerationEvent(sourceQueue))//check Source Queue had event that create new packet?
+		
 		{
 			long time = networkLayer.getDurrationTime();
 			long now = (long)sim.getTime();

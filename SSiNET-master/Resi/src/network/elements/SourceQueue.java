@@ -58,7 +58,7 @@ public class SourceQueue  extends Buffer{
         numGeneratedPacket++;
         double timeSent = numGeneratedPacket * Constant.HOST_DELAY;
         Packet p = new Packet(0, sourceId, destinationId, timeSent);
-//        p.setState( new StateP1(physicalLayer.sourceQueue, p)); // state set o ngoai khi event xay ra
+
         insertPacket(p);
         return p;
     }

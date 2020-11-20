@@ -59,8 +59,7 @@ public class Link extends Device {
     }
 
     public long serialLatency(int packetSize) {
-        //if(packetSize != 100000 && this.bandwidth != 1e9)
-        //    System.out.println("INFO: " + packetSize + " " + this.bandwidth);
+     
     	if(OverSubscription.isOversubscriptedLink(this, 35, 32))
     	{
     		if(this.bandwidth != OverSubscription.OVERSUBSCRIPTION_BANDWIDTH)
@@ -77,8 +76,7 @@ public class Link extends Device {
         return (long) (1e9 * packetSize / this.bandwidth);
     }
     public long propagationLatency() {
-        //if(length != Constant.DEFAULT_LINK_LENGTH && length != Constant.HOST_TO_SWITCH_LENGTH)
-        //    System.out.println("!!!!!!!!!Length = " + length);
+      
         return (long) (length / Constant.PROPAGATION_VELOCITY);
     }
 

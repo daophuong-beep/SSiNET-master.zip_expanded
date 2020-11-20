@@ -44,7 +44,24 @@ public class BLeavingSourceQueueEvent extends Event {
 		this.type = type;
 	}
 
+    // this function change type for exb
+	private void settingEXB(ExitBuffer exitBuffer) {
+		if (exitBuffer.isFull()) {
+			if (exitBuffer.getState().type == Type.X00) {
+				
+				exitBuffer.setType(Type.X10);
+				
+			}
+			if (exitBuffer.getState().type == Type.X01) {
+				
+				exitBuffer.setType(Type.X11);
+				exitBuffer.getState().act();
+			}
+		}
+
+	}
 	@Override
+	
 	public void actions()
 	{
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
@@ -69,35 +86,18 @@ public class BLeavingSourceQueueEvent extends Event {
 				exitBuffer.insertPacket(packet);
 
 				//change Packet state
-				//if (packet.getState() instanceof StateP1)
+				
 				{
-					//packet.setState(new StateP2(exitBuffer, packet, this));
+					
 					packet.setType(Type.P2);
-					//packet.getState().act();
-				}
-				//change state EXB,  type b4
-				if (exitBuffer.isFull()) {
-					if (exitBuffer.getState().type == Type.X00) {
-						//exitBuffer.setState(new X10(exitBuffer));
-						exitBuffer.setType(Type.X10);
-						//exitBuffer.getState().act();
-					}
-					if (exitBuffer.getState().type == Type.X01) {
-						//exitBuffer.setState(new X11(exitBuffer));
-						exitBuffer.setType(Type.X11);
-						exitBuffer.getState().act();
-					}
-				}
-
-//				// add event C
+				this.settingEXB(exitBuffer);
+				// add event C
 				long time = (long)sourceQueue.physicalLayer.simulator.time();
 				Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
-				event.register();//chen them su kien moi vao
+				event.register();//adding new event
 			}
 		}
-		//else
-		{
-			//System.out.println("ERROR: Event " + this.toString() + "khong the chua element: " + getElement().toString());
-		}
+		
+		}	
 	}
 }

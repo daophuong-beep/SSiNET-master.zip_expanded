@@ -202,12 +202,12 @@ public class ForcePair extends InterPodIncoming {
 			//results[8] = 1;
 		}
 		
-		if(x == 6)//Dat duoc 50%
+		if(x == 6)// 50%
 		{
 			results = new Integer[]{1, 26, 8, 10, 0, 3, 19, 16, 11, 9, 27, 17, 2, 25, 18, 24}; 
 		}
 		
-		if(x == 7)//Dat duoc 50%
+		if(x == 7)// 50%
 		{
 			results = new Integer[]{27, 9, 2, 1, 3, 17, 16, 10, 8, 18, 24, 11, 0, 19, 25, 26}; 
 		}

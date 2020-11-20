@@ -48,13 +48,13 @@ public class CLeavingEXBEvent extends Event {
                 unidirectionalWay.addPacket(exitBuffer.removePacket());
 
                 //change Packet state
-                //if (packet.getState() instanceof StateP2)
+                
                 {
-                    //packet.setState(new StateP3(unidirectionalWay, packet, this));
+                   
                 	packet.setType(Type.P3);
                 }
                 //change EXB state
-                //exitBuffer.setState(new X00(exitBuffer));
+               
                 exitBuffer.setType(Type.X00);
                 exitBuffer.getState().act();
                 //change uniWay state
@@ -71,7 +71,7 @@ public class CLeavingEXBEvent extends Event {
                     		time,
                             time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
                             unidirectionalWay, packet);
-                    event.register(); //chen them su kien moi vao
+                    event.register(); //insert new event
                 }
                 else if(nextNode instanceof Host){
                 	Host h = (Host)nextNode;

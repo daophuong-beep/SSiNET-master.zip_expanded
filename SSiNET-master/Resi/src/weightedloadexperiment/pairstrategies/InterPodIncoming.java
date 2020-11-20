@@ -64,7 +64,87 @@ public class InterPodIncoming extends OverSubscription {
         }
     	
     }
+    private void noname1(Integer[] allHosts,  List<Integer> destinations,List<Integer> sources
+    					 ,int sizeOfPod,int index,int expectedSrc,int dst,boolean found,int i,int currPod) {
+    	
+    	for(int j = index + 1; j < (index/sizeOfPod + 1)*sizeOfPod; j++)
+        {
+            expectedSrc = allHosts[j];
+            if(!sources.contains(expectedSrc)
+                    && ((expectedSrc / sizeOfPod) != (dst / sizeOfPod))
+            )
+            {
+                found = true;
+                sources.add(expectedSrc);
+                destinations.add(dst);
+                if((i + 1) % sizeOfPod == 0)
+                {
+                    currPod = (i + 1) / sizeOfPod;
+                }
+                else {
+                    currPod = j / sizeOfPod;
+                }
 
+                sources.add(dst);
+                destinations.add(expectedSrc);
+                break;
+            }
+        }
+
+    }
+    	private void noname2(int index, int sizeOfPod, int prePod,int numOfHosts, int dst) {
+    		 if(index / sizeOfPod == prePod)
+             {
+                 index = (index + sizeOfPod) % numOfHosts;
+                 //if(allHosts[index] /elmOfPod == dst / elmOfPod)
+                 if(index / sizeOfPod == dst / sizeOfPod)
+                 {
+                     index = (index + sizeOfPod) % numOfHosts;
+                 }
+             }
+    	}
+    	private void noname3( Integer[] allHosts ,List<Integer> destinations, List<Integer> sources,int i,int dst,int currPod, int sizeOfPod, int index,int numOfHosts) {
+    		
+                int count = 0;
+                int expectedSrc = allHosts[index];
+                boolean found = false;
+                //int j =
+
+    	        while(!found && count < k)
+            {
+                if(sources.contains(expectedSrc))
+                {
+                   this.noname1(allHosts, destinations, sources, sizeOfPod, index, expectedSrc, dst, found, index, currPod);
+                }//end of if(sources.contains(expectedSrc))
+                else{
+                    if(expectedSrc / sizeOfPod != dst / sizeOfPod)
+                    {
+                        found = true;
+                        sources.add(expectedSrc);
+                        destinations.add(dst);
+
+                        sources.add(dst);
+                        destinations.add(expectedSrc);
+
+                        if((i + 1) % sizeOfPod == 0)
+                        {
+                            currPod = (i + 1) / sizeOfPod;
+                        }
+                        else {
+                            currPod = index / sizeOfPod;
+                        }
+                        break;
+                    }
+                }
+
+                if(!found)
+                {
+                    count++;
+                    index = (index + sizeOfPod) % numOfHosts;
+                }
+            }
+            //end of while(!found && count < k)
+    	}
     @Override
     public void pairHosts() {
         List<Integer> sources = getSources();
@@ -82,76 +162,12 @@ public class InterPodIncoming extends OverSubscription {
             {
                 int index = (i + sizeOfPod + delta) % numOfHosts;
                 //if(allHosts[index] / elmOfPod == prePod)
-                if(index / sizeOfPod == prePod)
-                {
-                    index = (index + sizeOfPod) % numOfHosts;
-                    //if(allHosts[index] /elmOfPod == dst / elmOfPod)
-                    if(index / sizeOfPod == dst / sizeOfPod)
-                    {
-                        index = (index + sizeOfPod) % numOfHosts;
-                    }
-                }
+              this.noname2(index, sizeOfPod, prePod, numOfHosts, dst);
                 int count = 0;
                 int expectedSrc = allHosts[index];
                 boolean found = false;
                 //int j =
-                while(!found && count < k)
-                {
-                    if(sources.contains(expectedSrc))
-                    {
-                        for(int j = index + 1; j < (index/sizeOfPod + 1)*sizeOfPod; j++)
-                        {
-                            expectedSrc = allHosts[j];
-                            if(!sources.contains(expectedSrc)
-                                    && ((expectedSrc / sizeOfPod) != (dst / sizeOfPod))
-                            )
-                            {
-                                found = true;
-                                sources.add(expectedSrc);
-                                destinations.add(dst);
-                                if((i + 1) % sizeOfPod == 0)
-                                {
-                                    currPod = (i + 1) / sizeOfPod;
-                                }
-                                else {
-                                    currPod = j / sizeOfPod;
-                                }
-
-                                sources.add(dst);
-                                destinations.add(expectedSrc);
-                                break;
-                            }
-                        }
-
-                    }//end of if(sources.contains(expectedSrc))
-                    else{
-                        if(expectedSrc / sizeOfPod != dst / sizeOfPod)
-                        {
-                            found = true;
-                            sources.add(expectedSrc);
-                            destinations.add(dst);
-
-                            sources.add(dst);
-                            destinations.add(expectedSrc);
-
-                            if((i + 1) % sizeOfPod == 0)
-                            {
-                                currPod = (i + 1) / sizeOfPod;
-                            }
-                            else {
-                                currPod = index / sizeOfPod;
-                            }
-                            break;
-                        }
-                    }
-
-                    if(!found)
-                    {
-                        count++;
-                        index = (index + sizeOfPod) % numOfHosts;
-                    }
-                }
-                //end of while(!found && count < k)
+                this.noname3(allHosts, destinations, sources, i, dst, currPod, sizeOfPod, index, numOfHosts);
             }
             //end of if(!destinations.contains(dst))
             else {
@@ -163,6 +179,40 @@ public class InterPodIncoming extends OverSubscription {
         this.setDestinations(destinations);
     }
 
+   
+    private void noname4(int sizeOfPod, int realCore) {
+    	Map<Integer, Integer> flowPerCore = new HashMap<Integer, Integer>();
+   		List<Integer> sources = getSources();
+        List<Integer> destinations = getDestinations();
+    	  for(int i = 0; i < sources.size(); i++)
+          {
+              realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
+              System.out.println("From " + sources.get(i) + " through " +
+                      getCoreSwitch(sources.get(i), destinations.get(i))
+                      + "/" + realCore
+                      + " to "
+                      + destinations.get(i)
+              );
+
+              if(flowPerCore.containsKey(realCore))
+              {
+                  int value = flowPerCore.get(realCore) + 1;
+                  flowPerCore.put(realCore, value);
+              }
+              else{
+                  flowPerCore.put(realCore, 1);
+              }
+
+              if(sources.get(i) / sizeOfPod ==
+                      destinations.get(i) / sizeOfPod)
+              {
+                  System.out.print("Source and destination are in the same pod. INVALID!!!!");
+                  System.exit(0);
+                  //count++;
+                  break;
+              }
+          }
+    }
     @Override
     public void checkValid()
     {
@@ -189,35 +239,7 @@ public class InterPodIncoming extends OverSubscription {
         }
 
         
-        for(int i = 0; i < sources.size(); i++)
-        {
-            realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
-            System.out.println("From " + sources.get(i) + " through " +
-                    getCoreSwitch(sources.get(i), destinations.get(i))
-                    + "/" + realCore
-                    + " to "
-                    + destinations.get(i)
-            );
-
-            if(flowPerCore.containsKey(realCore))
-            {
-                int value = flowPerCore.get(realCore) + 1;
-                flowPerCore.put(realCore, value);
-            }
-            else{
-                flowPerCore.put(realCore, 1);
-            }
-
-            if(sources.get(i) / sizeOfPod ==
-                    destinations.get(i) / sizeOfPod)
-            {
-                System.out.print("Source and destination are in the same pod. INVALID!!!!");
-                System.exit(0);
-                //count++;
-                break;
-            }
-        }
-
+        this.noname4(sizeOfPod, realCore);
         int average = k;
         int equal = 0;
         for(int core : flowPerCore.keySet())

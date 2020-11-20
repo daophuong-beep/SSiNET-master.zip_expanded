@@ -40,23 +40,4 @@ public abstract class Simulator extends umontreal.ssj.simevents.Simulator{
     
     }
     
-    
-    
-    /*public void addLocationOfEvents(Device device)
-    {
-    	if(device instanceof Host)
-    	{
-    		addLocation((Host)device);
-    	}
-    	if(device instanceof Switch)
-    	{
-    		
-    	}
-    }
-    
-    public void addLocation(Host host)
-    {
-    	
-    }*/
-    
 }

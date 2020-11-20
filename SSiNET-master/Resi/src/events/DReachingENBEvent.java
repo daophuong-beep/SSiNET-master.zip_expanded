@@ -31,7 +31,7 @@ public class DReachingENBEvent extends Event {
 	public DReachingENBEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p)
 	{
 		super(sim, endTime);
-		//countSubEvent++;
+		
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.element = elem;
@@ -40,14 +40,14 @@ public class DReachingENBEvent extends Event {
 	@Override
 	public void actions()
 	{
-		//if(getElement() instanceof UnidirectionalWay) 
+		
 		{
 			UnidirectionalWay unidirectionalWay = (UnidirectionalWay)element;
 			
 			EntranceBuffer entranceBuffer = unidirectionalWay.getToNode().physicalLayer.entranceBuffers
 					.get(unidirectionalWay.getFromNode().getId());
 
-			if(//packet.getState() instanceof SStateP3 
+			if(
 				packet.getState().type == Type.P3
 					&& unidirectionalWay.getState() instanceof W1
 					&& unidirectionalWay.getToNode() instanceof Switch && entranceBuffer.getState() instanceof N0
@@ -57,9 +57,9 @@ public class DReachingENBEvent extends Event {
 				entranceBuffer.insertPacket(packet);
 
 				//change state packet
-				//packet.setState(new StateP4(entranceBuffer, packet, this));
+			
 				packet.setType(Type.P4);
-				//packet.getState().act();
+				
 
 				if (entranceBuffer.isFull()) {
 					type = TypeD.D2; // ENB full
@@ -75,12 +75,12 @@ public class DReachingENBEvent extends Event {
 					ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer
 							.exitBuffers.get(unidirectionalWay.getToNode().getId());
 					if (sendExitBuffer.getState().type == Type.X00) {
-						//sendExitBuffer.setState(new X01(sendExitBuffer));
+						
 						sendExitBuffer.setType(Type.X01);
 						sendExitBuffer.getState().act();
 					}
 					if (sendExitBuffer.getState().type == Type.X10) {
-						//sendExitBuffer.setState(new X11(sendExitBuffer));
+						
 						sendExitBuffer.setType(Type.X11);
 						sendExitBuffer.getState().act();
 					}
@@ -92,9 +92,6 @@ public class DReachingENBEvent extends Event {
 				entranceBuffer.getNode().getNetworkLayer().route(entranceBuffer);
 			}
 		}
-		//else 
-		{
-			//System.out.println("ERROR: Event " + this.toString() + "khong the chua element: " + getElement().toString());
-		}
+		
 	}
 }

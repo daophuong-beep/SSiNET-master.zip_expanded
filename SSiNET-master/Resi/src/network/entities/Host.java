@@ -44,8 +44,8 @@ public class Host extends Node {
    }
    
    protected int receivedPacketInNode = 0;
-   protected double lastRx = 0; // thoi gian goi tin cuoi cung den host
-   protected double firstTx = -1; //la thoi gian goi tin dau tien den host
+   protected double lastRx = 0; // time the last packet reach host
+   protected double firstTx = -1; //time the first packet reach host
 
    
 
@@ -65,9 +65,9 @@ public class Host extends Node {
        double currentTime = this.physicalLayer.simulator.getTime();
        this.physicalLayer.simulator.numReceived++;
        if(this.receivedPacketInNode == 0) {
-//           this.firstTx = packet.getStartTime();
+//           
            this.firstTx = currentTime;
-           //System.out.println("Thoi gian goi tin dau tien den voi host " + self.id + " la: " + this.firstTx);
+         
        }
        this.receivedPacketInNode ++;
        this.lastRx = currentTime;

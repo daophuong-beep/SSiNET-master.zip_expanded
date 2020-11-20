@@ -7,8 +7,8 @@ import network.elements.Packet;
 
 public abstract class LimitedBuffer extends Buffer {
 	//todo should set to protected
-	protected Node node; //co the bo di
-	protected Node connectNode; // ko the bo, vi tu buffer ko the biet duoc no connect voi node khac nao
+	protected Node node; //deletable
+	protected Node connectNode; // undeletable, because we can not know which not it connect from buffer
 	protected int size;
 
 
