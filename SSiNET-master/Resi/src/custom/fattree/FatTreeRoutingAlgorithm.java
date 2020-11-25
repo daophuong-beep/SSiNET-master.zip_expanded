@@ -69,7 +69,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 
 	private void buildEdgeSwitchesTable(int k,int numEachPod) {
 		/** this function build a prefix-suffix routing table for edgeswtiches
-		 * 
+		 * aa
 		 */
 		for (int p = 0; p < k; p++) {
             int offset = numEachPod * p;
