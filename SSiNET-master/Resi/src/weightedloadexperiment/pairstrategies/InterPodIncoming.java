@@ -13,31 +13,16 @@ import custom.fattree.FatTreeRoutingAlgorithm;
 
 public class InterPodIncoming extends OverSubscription {
 
-    //public int k;
+ 
     private int [][] adjMx;
-    //private FatTreeRoutingAlgorithm routing;
-    //private FatTreeGraph G;
-    
+  
     public InterPodIncoming(FatTreeRoutingAlgorithm routing, FatTreeGraph G)
     {
     	super();
     	this.routing = routing;
         this.G = G;
     }
-	/*
-	 * public InterPodIncoming(Integer[] allHosts, int k, FatTreeRoutingAlgorithm
-	 * routing, FatTreeGraph G) { super(allHosts); this.k = k; this.routing =
-	 * routing; this.G = G; int numOfHosts = allHosts.length;
-	 * 
-	 * adjMx = new int[numOfHosts][numOfHosts]; for(int i = 0; i < numOfHosts; i++)
-	 * { for(int j = 0; j < numOfHosts; j++) { if(i / (k*k/4) != j / (k*k/4)) { int
-	 * src = allHosts[i]; int dst = allHosts[j]; int core = getCoreSwitch(src, dst);
-	 * adjMx[i][j] = core; } else{ adjMx[i][j] = 0; } } }
-	 * 
-	 * 
-	 * }
-	 */
-    
+	
     @Override
     public void setAllHosts(Integer[] allHosts)
     {
@@ -64,7 +49,7 @@ public class InterPodIncoming extends OverSubscription {
         }
     	
     }
-    private void noname1(Integer[] allHosts,  List<Integer> destinations,List<Integer> sources
+    private void add(Integer[] allHosts,  List<Integer> destinations,List<Integer> sources
     					 ,int sizeOfPod,int index,int expectedSrc,int dst,boolean found,int i,int currPod) {
     	
     	for(int j = index + 1; j < (index/sizeOfPod + 1)*sizeOfPod; j++)
@@ -92,18 +77,18 @@ public class InterPodIncoming extends OverSubscription {
         }
 
     }
-    	private void noname2(int index, int sizeOfPod, int prePod,int numOfHosts, int dst) {
+    	private void index(int index, int sizeOfPod, int prePod,int numOfHosts, int dst) {
     		 if(index / sizeOfPod == prePod)
              {
                  index = (index + sizeOfPod) % numOfHosts;
-                 //if(allHosts[index] /elmOfPod == dst / elmOfPod)
+                 
                  if(index / sizeOfPod == dst / sizeOfPod)
                  {
                      index = (index + sizeOfPod) % numOfHosts;
                  }
              }
     	}
-    	private void noname3( Integer[] allHosts ,List<Integer> destinations, List<Integer> sources,int i,int dst,int currPod, int sizeOfPod, int index,int numOfHosts) {
+    	private void ham1( Integer[] allHosts ,List<Integer> destinations, List<Integer> sources,int i,int dst,int currPod, int sizeOfPod, int index,int numOfHosts) {
     		
                 int count = 0;
                 int expectedSrc = allHosts[index];
@@ -114,7 +99,7 @@ public class InterPodIncoming extends OverSubscription {
             {
                 if(sources.contains(expectedSrc))
                 {
-                   this.noname1(allHosts, destinations, sources, sizeOfPod, index, expectedSrc, dst, found, index, currPod);
+                   this.add(allHosts, destinations, sources, sizeOfPod, index, expectedSrc, dst, found, index, currPod);
                 }//end of if(sources.contains(expectedSrc))
                 else{
                     if(expectedSrc / sizeOfPod != dst / sizeOfPod)
@@ -162,12 +147,12 @@ public class InterPodIncoming extends OverSubscription {
             {
                 int index = (i + sizeOfPod + delta) % numOfHosts;
                 //if(allHosts[index] / elmOfPod == prePod)
-              this.noname2(index, sizeOfPod, prePod, numOfHosts, dst);
+              this.index(index, sizeOfPod, prePod, numOfHosts, dst);
                 int count = 0;
                 int expectedSrc = allHosts[index];
                 boolean found = false;
                 //int j =
-                this.noname3(allHosts, destinations, sources, i, dst, currPod, sizeOfPod, index, numOfHosts);
+                this.ham1(allHosts, destinations, sources, i, dst, currPod, sizeOfPod, index, numOfHosts);
             }
             //end of if(!destinations.contains(dst))
             else {
@@ -180,7 +165,7 @@ public class InterPodIncoming extends OverSubscription {
     }
 
    
-    private void noname4(int sizeOfPod, int realCore) {
+    private void print(int sizeOfPod, int realCore) {
     	Map<Integer, Integer> flowPerCore = new HashMap<Integer, Integer>();
    		List<Integer> sources = getSources();
         List<Integer> destinations = getDestinations();
@@ -239,7 +224,7 @@ public class InterPodIncoming extends OverSubscription {
         }
 
         
-        this.noname4(sizeOfPod, realCore);
+        this.print(sizeOfPod, realCore);
         int average = k;
         int equal = 0;
         for(int core : flowPerCore.keySet())

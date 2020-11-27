@@ -91,4 +91,30 @@ public class CLeavingEXBEvent extends Event {
         }
 		
     }
+    private void ceilingwin(Node nextNode, ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+    	if(nextNode instanceof Switch) {
+            // add event D
+        	long time = (long)exitBuffer.physicalLayer.simulator.time();
+            Event event = new DReachingENBEvent(
+            		sim,
+            		time,
+                    time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
+                    unidirectionalWay, packet);
+            event.register(); //insert new event
+        }
+        else if(nextNode instanceof Host){
+        	Host h = (Host)nextNode;
+        	if(h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix)
+        	{
+                // add event G
+            	long time = (long)exitBuffer.physicalLayer.simulator.time();
+                Event event = new GReachingDestinationEvent(
+                		sim,
+                		time,
+                        time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
+                        unidirectionalWay, packet);
+                event.register(); //add new event
+        	}
+        }
+    }
 }

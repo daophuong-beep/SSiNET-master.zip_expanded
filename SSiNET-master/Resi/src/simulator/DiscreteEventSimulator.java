@@ -87,7 +87,6 @@ public class DiscreteEventSimulator extends Simulator {
 		simulating = true;
 		umontreal.ssj.simevents.Event ev;
 		int countEvent = 0;
-		
 		try {
 			long startTime = System.currentTimeMillis();//remove redundant variable
 			int lastPercentage = 0;
@@ -98,9 +97,9 @@ public class DiscreteEventSimulator extends Simulator {
 				countEvent++;
 				ev.actions();
 	
+				lastPercentage = this.noname(startTime, lastPercentage);
 				
-				int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
-				this.noname1(lastPercentage, startTime);
+				 
 			}
 			StdOut.print("\r");
 		} catch (Exception ex) {
@@ -112,17 +111,17 @@ public class DiscreteEventSimulator extends Simulator {
 		
 		System.out.println("# of Events: " + countEvent);
 	}
-    public void noname1(int lastPercentage,long startTime) {
-    	int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
+    
+    private int noname(long startTime, int lastPercentage) {
+		int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
 		if (percentage > lastPercentage) 
 		{ 
 			lastPercentage = percentage;
 			StdOut.printProgress("Progress", startTime, (long) timeLimit, currentTime); 
 		}
+		return lastPercentage;
 		
-		 
-	}
-    
+    }
     @Override
     protected Event removeFirstEvent() {
         if (this.stopped) {

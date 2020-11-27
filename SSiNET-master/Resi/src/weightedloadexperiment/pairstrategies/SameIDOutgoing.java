@@ -50,9 +50,34 @@ public class SameIDOutgoing extends OverSubscription {
             sameHostID = -1;
             List<Integer> allTempDsts = new ArrayList<Integer>();
             List<Integer> allTempSrcs = new ArrayList<Integer>();
+          	
+            this.ham_so_01(allHosts, numOfHosts, allTempDsts, destinations, delta, allTempSrcs, i, sameHostID);   
+            if(allTempDsts.size() == k/2)
+            {
+            	i += k/2;
+            	System.out.print("\n");
+            	sources.addAll(allTempSrcs); destinations.addAll(allTempDsts);
+            	for(int m = 0; m < allTempDsts.size(); m++)
+            	{
+            		System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
+            		int id = allTempDsts.get(m);
+            		Address host = G.getAddress(id);
+            		System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
+            		System.out.println();
+            	}
+            	System.out.print("\n");
+            }
+            else {
+            	delta = RandomGenerator.nextInt(0, k*k*k/4);
+            }
+            count++;
+	    }
+	}
+	private void ham_so_01(Integer[] allHosts,int numOfHosts,List<Integer> allTempDsts,List<Integer> destinations,int delta,List<Integer> allTempSrcs, int i,int sameHostID)
+	{
+		
+		for(int j = i; j < i + (k/2); j++)
             
-            for(int j = i; j < i + (k/2); j++)
-            //if(!IsSameSubNet(previousSrc, src))
             {
             	int src =  allHosts[j];
             	boolean found = false;
@@ -88,29 +113,7 @@ public class SameIDOutgoing extends OverSubscription {
             	}
             	
             }
-            
-            if(allTempDsts.size() == k/2)
-            {
-            	i += k/2;
-            	System.out.print("\n");
-            	sources.addAll(allTempSrcs); destinations.addAll(allTempDsts);
-            	for(int m = 0; m < allTempDsts.size(); m++)
-            	{
-            		System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
-            		int id = allTempDsts.get(m);
-            		Address host = G.getAddress(id);
-            		System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
-            		System.out.println();
-            	}
-            	System.out.print("\n");
-            }
-            else {
-            	delta = RandomGenerator.nextInt(0, k*k*k/4);
-            }
-            count++;
-	    }
 	}
-	
 	@Override
 	public void setAllHosts(Integer[] allHosts)
 	{
@@ -213,3 +216,5 @@ public class SameIDOutgoing extends OverSubscription {
     }
 
 }
+
+
