@@ -97,7 +97,7 @@ public class DiscreteEventSimulator extends Simulator {
 				countEvent++;
 				ev.actions();
 	
-				lastPercentage = this.noname(startTime, lastPercentage);
+				lastPercentage = this.print(startTime, lastPercentage);
 				
 				 
 			}
@@ -111,8 +111,13 @@ public class DiscreteEventSimulator extends Simulator {
 		
 		System.out.println("# of Events: " + countEvent);
 	}
-    
-    private int noname(long startTime, int lastPercentage) {
+    /**
+     * this method is for printing progress
+     * @param startTime is the time simulator begins
+     * @param lastPercentage 
+     * @return lastPercentage
+     */
+    private int print(long startTime, int lastPercentage) {
 		int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
 		if (percentage > lastPercentage) 
 		{ 
