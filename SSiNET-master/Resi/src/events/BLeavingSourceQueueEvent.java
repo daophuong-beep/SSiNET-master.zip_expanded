@@ -44,7 +44,10 @@ public class BLeavingSourceQueueEvent extends Event {
 		this.type = type;
 	}
 
-    // this function change type for exb
+    /**
+     * this method is for changing state of EXB
+     * @param exitBuffer
+     */
 	private void settingEXB(ExitBuffer exitBuffer) {
 		if (exitBuffer.isFull()) {
 			if (exitBuffer.getState().type == Type.X00) {
@@ -79,14 +82,10 @@ public class BLeavingSourceQueueEvent extends Event {
 				//change state source queue, type B1
 				if(sourceQueue.hasOnlyOnePacket()){
 					sourceQueue.setState(new Sq1(sourceQueue));
-					//sourceQueue.getState().act();
 				}
 
 				sourceQueue.removePacket();
 				exitBuffer.insertPacket(packet);
-
-				//change Packet state
-				
 				{
 					
 					packet.setType(Type.P2);

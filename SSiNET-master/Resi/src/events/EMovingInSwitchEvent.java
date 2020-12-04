@@ -56,9 +56,6 @@ public class EMovingInSwitchEvent extends Event {
 				entranceBuffer.removePacket();
 				exitBuffer.insertPacket(packet);
 				exitBuffer.removeFromRequestList(entranceBuffer);
-
-				//change Packet state
-				
 				{
 					
 					packet.setType(Type.P5);
@@ -69,17 +66,7 @@ public class EMovingInSwitchEvent extends Event {
 					entranceBuffer.getState().act();
 				}
 				if (exitBuffer.isFull()) {
-					type = TypeE.E2;
-					if (exitBuffer.getState().type ==  Type.X00) {
-						
-						exitBuffer.setType(Type.X10);
-						exitBuffer.getState().act();
-					}
-					if (exitBuffer.getState().type == Type.X01) {
-						
-						exitBuffer.setType(Type.X11);
-						exitBuffer.getState().act();
-					}
+					settingbufferE(exitBuffer);
 				}
 
 				if (exitBuffer.isPeekPacket(packet)) {
@@ -100,4 +87,18 @@ public class EMovingInSwitchEvent extends Event {
 		}
 		
 	}
+
+private void settingbufferE(ExitBuffer exitBuffer) {
+	type = TypeE.E2;
+	if (exitBuffer.getState().type ==  Type.X00) {
+		
+		exitBuffer.setType(Type.X10);
+		exitBuffer.getState().act();
+	}
+	if (exitBuffer.getState().type == Type.X01) {
+		
+		exitBuffer.setType(Type.X11);
+		exitBuffer.getState().act();
+	}
+}
 }

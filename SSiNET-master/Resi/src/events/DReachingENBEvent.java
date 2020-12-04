@@ -55,10 +55,7 @@ public class DReachingENBEvent extends Event {
 					&& unidirectionalWay.getPacket() == packet
 			){
 				unidirectionalWay.removePacket();
-				entranceBuffer.insertPacket(packet);
-
-				//change state packet
-			
+				entranceBuffer.insertPacket(packet);	
 				packet.setType(Type.P4);
 				this.settingbuffer(unidirectionalWay, entranceBuffer);
 

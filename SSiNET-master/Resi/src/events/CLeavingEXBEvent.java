@@ -55,11 +55,7 @@ public class CLeavingEXBEvent extends Event {
                 }
                 //change EXB state
                
-                exitBuffer.setType(Type.X00);
-                exitBuffer.getState().act();
-                //change uniWay state
-                unidirectionalWay.setState(new W1(unidirectionalWay));
-                unidirectionalWay.getState().act();
+               this.settingstate(exitBuffer, unidirectionalWay);
 
                 Node nextNode = unidirectionalWay.getToNode();
                 // next node is switch so add event D
@@ -91,4 +87,44 @@ public class CLeavingEXBEvent extends Event {
         }
 		
     }
+    
+    /**
+     * this method is for changing state for exb
+     * @param exitBuffer
+     * @param unidirectionalWay
+     */
+    
+    private void settingstate(ExitBuffer exitBuffer,UnidirectionalWay unidirectionalWay) {
+	 
+    exitBuffer.setType(Type.X00);
+    exitBuffer.getState().act();
+    //change uniWay state
+    unidirectionalWay.setState(new W1(unidirectionalWay));
+    unidirectionalWay.getState().act();
+    }
+/**
+ * this method is for 
+ * @param exitBuffer
+ * @param sim
+ * @param unidirectionalWay
+ */
+private void addEventD(ExitBuffer exitBuffer, DiscreteEventSimulator sim, UnidirectionalWay unidirectionalWay	) {
+	long time = (long)exitBuffer.physicalLayer.simulator.time();
+    Event event = new DReachingENBEvent(
+    		sim,
+    		time,
+            time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
+            unidirectionalWay, packet);
+    event.register(); //insert new event
+}
+
+private void addEventG( ExitBuffer exitBuffer, DiscreteEventSimulator sim,UnidirectionalWay unidirectionalWay) {
+	long time = (long)exitBuffer.physicalLayer.simulator.time();
+    Event event = new GReachingDestinationEvent(
+    		sim,
+    		time,
+            time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
+            unidirectionalWay, packet);
+    event.register(); 
+}
 }
