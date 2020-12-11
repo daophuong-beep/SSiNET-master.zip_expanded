@@ -39,53 +39,28 @@ public class CLeavingEXBEvent extends Event {
     	DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
         {
             ExitBuffer exitBuffer = (ExitBuffer)element;
-            
             UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links.get(exitBuffer.physicalLayer.node.getId())// vi la link cua host nen hoi khac
                     .getWayToOtherNode(exitBuffer.physicalLayer.node);
-
             if(unidirectionalWay.getState() instanceof W0 && exitBuffer.isPeekPacket(packet)
                     && ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
                 unidirectionalWay.addPacket(exitBuffer.removePacket());
-
-                //change Packet state
-                
                 {
-                   
                 	packet.setType(Type.P3);
-                }
-                //change EXB state
-               
+                }    
                this.settingstate(exitBuffer, unidirectionalWay);
-
                 Node nextNode = unidirectionalWay.getToNode();
-                // next node is switch so add event D
                 if(nextNode instanceof Switch) {
-                    // add event D
-                	long time = (long)exitBuffer.physicalLayer.simulator.time();
-                    Event event = new DReachingENBEvent(
-                    		sim,
-                    		time,
-                            time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
-                            unidirectionalWay, packet);
-                    event.register(); //insert new event
+                	this.addEventD(exitBuffer, sim, unidirectionalWay);
                 }
                 else if(nextNode instanceof Host){
                 	Host h = (Host)nextNode;
                 	if(h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix)
                 	{
-	                    // add event G
-	                	long time = (long)exitBuffer.physicalLayer.simulator.time();
-	                    Event event = new GReachingDestinationEvent(
-	                    		sim,
-	                    		time,
-	                            time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
-	                            unidirectionalWay, packet);
-	                    event.register(); //add new event
+	                	this.addEventG(exitBuffer, sim, unidirectionalWay);
                 	}
                 }
             }
-        }
-		
+        }	
     }
     
     /**

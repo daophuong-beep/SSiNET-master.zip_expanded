@@ -62,7 +62,6 @@ public class FLeavingSwitchEvent extends Event {
             	this.AddEventG(unidirectionalWay, exitBuffer, sim);
             }
         }
-        
     }
 
 private void settingbuffer( UnidirectionalWay unidirectionalWay,ExitBuffer exitBuffer) {

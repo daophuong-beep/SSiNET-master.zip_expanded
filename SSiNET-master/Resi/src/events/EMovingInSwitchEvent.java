@@ -52,42 +52,39 @@ public class EMovingInSwitchEvent extends Event {
 			if (entranceBuffer.isPeekPacket(packet)
 					&& ((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
 			) {
-				entranceBuffer.dropNextNode();
-				entranceBuffer.removePacket();
-				exitBuffer.insertPacket(packet);
-				exitBuffer.removeFromRequestList(entranceBuffer);
-				{
-					
-					packet.setType(Type.P5);
-					
-				}
-				if (entranceBuffer.getState() instanceof N1) {
-					entranceBuffer.setState(new N0(entranceBuffer));
-					entranceBuffer.getState().act();
-				}
-				if (exitBuffer.isFull()) {
-					settingbufferE(exitBuffer);
-				}
-
-				if (exitBuffer.isPeekPacket(packet)) {
-					//add event F
-					long time = (long)exitBuffer.physicalLayer.simulator.time();
-					Event event = new FLeavingSwitchEvent(
-							sim,
-							time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
-					event.register();
-				}
-
-				exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
-
-				if (!entranceBuffer.isEmpty()) {
-					entranceBuffer.getNode().getNetworkLayer().route((entranceBuffer));
-				}
-			}
-		}
+				this.changestate(entranceBuffer, exitBuffer, sim);			}
+		}	
 		
 	}
+private void changestate(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+	entranceBuffer.dropNextNode();
+	entranceBuffer.removePacket();
+	exitBuffer.insertPacket(packet);
+	exitBuffer.removeFromRequestList(entranceBuffer);
+	{
+		
+		packet.setType(Type.P5);
+		
+	}
+	if (entranceBuffer.getState() instanceof N1) {
+		entranceBuffer.setState(new N0(entranceBuffer));
+		entranceBuffer.getState().act();
+	}
+	if (exitBuffer.isFull()) {
+		settingbufferE(exitBuffer);
+	}
 
+	if (exitBuffer.isPeekPacket(packet)) {
+		//add event F
+	addeventF(exitBuffer, sim);
+	}
+
+	exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
+
+	if (!entranceBuffer.isEmpty()) {
+		entranceBuffer.getNode().getNetworkLayer().route((entranceBuffer));
+	}
+}
 private void settingbufferE(ExitBuffer exitBuffer) {
 	type = TypeE.E2;
 	if (exitBuffer.getState().type ==  Type.X00) {
@@ -100,5 +97,13 @@ private void settingbufferE(ExitBuffer exitBuffer) {
 		exitBuffer.setType(Type.X11);
 		exitBuffer.getState().act();
 	}
+}
+
+private void addeventF(ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+	long time = (long)exitBuffer.physicalLayer.simulator.time();
+	Event event = new FLeavingSwitchEvent(
+			sim,
+			time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
+	event.register();
 }
 }
